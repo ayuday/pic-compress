@@ -74,7 +74,6 @@ watchEffect(()=>{
     files.length > 0 && createImageList(files);
 
   };
-  
   const onClick = (fileRef) =>{
     return fileRef.current;
   }
