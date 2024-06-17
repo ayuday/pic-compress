@@ -6,11 +6,12 @@
 </template>
 
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script  lang="ts">
+import { defineComponent, computed } from "vue";
 import { ElConfigProvider } from "element-plus";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 
+// const currentLocale = computed(()=>zhCn);
 export default defineComponent({
   name: "app",
   components: {

@@ -1,9 +1,8 @@
 import WorkerC from "./WorkerCompress?worker";
 import WorkerP from "./WorkerPreview?worker";
-import { useEffect } from "react";
+import { watchEffect } from "vue";
 import { uniqId } from "@/functions";
-import { toJS } from "mobx";
-import { ImageItem, homeState } from "@/states/home";
+import { ImageItem, homeState } from "@/store/home";
 import { CompressOption, Dimension, ImageInfo } from "./ImageBase";
 import { OutputMessageData } from "./handler";
 import { Mimes } from "@/mimes";
@@ -20,7 +19,8 @@ let workerP: Worker | null = null;
 async function message(event: MessageEvent<OutputMessageData>) {
   const value = homeState.list.get(event.data.key);
   if (value) {
-    const item = toJS(value);
+    //const item = toJS(value);
+    const item = value;
     item.width = event.data.width;
     item.height = event.data.height;
     item.compress = event.data.compress ?? item.compress;
@@ -88,7 +88,7 @@ async function message(event: MessageEvent<OutputMessageData>) {
 }
 
 export function useWorkerHandler() {
-  useEffect(() => {
+  watchEffect(() => {
     workerC = new WorkerC();
     workerP = new WorkerP();
     workerC.addEventListener("message", message);

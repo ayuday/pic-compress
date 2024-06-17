@@ -1,6 +1,8 @@
 import App from './App.vue'
 import { createApp, type Directive } from "vue";
 
+import router from "./router";
+import { createPinia } from 'pinia'
 import { useElementPlus } from "@/plugins/elementPlus";
 import { injectResponsiveStorage } from "@/utils/responsive";
 
@@ -18,11 +20,15 @@ import "./assets/iconfont/iconfont.js";
 import "./assets/iconfont/iconfont.css";
 
 const app = createApp(App);
-
+const pinia = createPinia();
 // 自定义指令
 import * as directives from "@/directives";
 Object.keys(directives).forEach(key => {
   app.directive(key, (directives as { [key: string]: Directive })[key]);
 });
 
-app.use(useElementPlus).mount("#app");
+app
+.use(pinia)
+.use(router)
+.use(useElementPlus)
+.mount("#app");
